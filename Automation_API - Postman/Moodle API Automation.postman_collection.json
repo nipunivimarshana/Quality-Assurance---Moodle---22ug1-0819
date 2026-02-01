@@ -1,0 +1,130 @@
+{
+  "info": {
+    "_postman_id": "ebb67af2-2ee5-4d88-9783-5305ed7bd128",
+    "name": "Moodle API Automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51991285",
+    "_collection_link": "https://go.postman.co/collection/51991285-ebb67af2-2ee5-4d88-9783-5305ed7bd128?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "1. Get Site Info",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test 1: Check for successful connection\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// Test 2: Verify the response is a valid JSON object\r",
+              "pm.test(\"Response is JSON\", function () {\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "// Test 3: Check if the site name exists in the response\r",
+              "pm.test(\"Verify Site Name exists\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.sitename).to.not.be.null;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/webservice/rest/server.php?wstoken={{wstoken}}&wsfunction=core_webservice_get_site_info&moodlewsrestformat=json",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "webservice",
+            "rest",
+            "server.php"
+          ],
+          "query": [
+            {
+              "key": "wstoken",
+              "value": "{{wstoken}}"
+            },
+            {
+              "key": "wsfunction",
+              "value": "core_webservice_get_site_info"
+            },
+            {
+              "key": "moodlewsrestformat",
+              "value": "json"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get Courses",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// Performance Test: API should respond fast (under 500ms)\r",
+              "pm.test(\"Response time is less than 500ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+              "});\r",
+              "\r",
+              "// Data Validation: Check if there is at least one course\r",
+              "pm.test(\"Course list is retrieved\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.length).to.be.at.least(1);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/webservice/rest/server.php?wstoken={{wstoken}}&wsfunction=core_course_get_courses&moodlewsrestformat=json",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "webservice",
+            "rest",
+            "server.php"
+          ],
+          "query": [
+            {
+              "key": "wstoken",
+              "value": "{{wstoken}}"
+            },
+            {
+              "key": "wsfunction",
+              "value": "core_course_get_courses"
+            },
+            {
+              "key": "moodlewsrestformat",
+              "value": "json"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
